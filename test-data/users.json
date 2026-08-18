@@ -1,0 +1,25 @@
+{
+  "validUser": {
+    "username": "standard_user",
+    "email": "user@example.com",
+    "password": "Password123!",
+    "role": "user"
+  },
+  "adminUser": {
+    "username": "admin_user",
+    "email": "admin@example.com",
+    "password": "AdminPassword123!",
+    "role": "admin"
+  },
+  "invalidUser": {
+    "username": "invalid_user",
+    "email": "wrong_user@example.com",
+    "password": "WrongPassword!",
+    "role": "guest"
+  },
+  "testItems": [
+    "ซื้อของเข้าบ้าน",
+    "เขียน Automation Test ด้วย Playwright",
+    "ทดสอบระบบ E2E Flow"
+  ]
+}

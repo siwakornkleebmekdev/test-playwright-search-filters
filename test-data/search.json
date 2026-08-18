@@ -1,0 +1,24 @@
+{
+  "searchKeywords": {
+    "validKeyword": "ภาษาอังกฤษ",
+    "howToWrite": "วิธีการเขียน",
+    "notFoundSymbol": "@"
+  },
+  "educationLevels": {
+    "juniorHigh": "มัธยมศึกษาตอนต้น",
+    "seniorHigh": "มัธยมศึกษาตอนปลาย",
+    "university": "มหาวิทยาลัย"
+  },
+  "subjects": {
+    "english": "ภาษาอังกฤษ",
+    "math": "คณิตศาสตร์",
+    "physics": "ฟิสิกส์",
+    "chemistry": "เคมี",
+    "biology": "ชีววิทยา",
+    "social": "สังคมศึกษา"
+  },
+  "messages": {
+    "emptyState": "ไม่พบโพสต์ที่ตรงกับตัวกรอง",
+    "clearFilter": "ล้างตัวกรองทั้งหมด"
+  }
+}

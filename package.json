@@ -1,0 +1,30 @@
+{
+  "name": "playwright-automation-framework",
+  "version": "1.0.0",
+  "description": "Professional Test-Case & Markdown driven Playwright Automation Framework (JavaScript)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "test:search": "playwright test tests/e2e/search"
+  },
+  "keywords": [
+    "playwright",
+    "javascript",
+    "automation",
+    "testing",
+    "e2e",
+    "search-filter",
+    "page-object-model"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "dotenv": "^16.4.7"
+  }
+}

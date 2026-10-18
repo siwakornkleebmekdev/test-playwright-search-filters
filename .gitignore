@@ -3,6 +3,9 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+/.venv/
+/.robot-python/
+/robot-results/
 .env
 npm-debug.log*
 yarn-debug.log*

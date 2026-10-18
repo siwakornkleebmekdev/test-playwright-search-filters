@@ -1,7 +1,8 @@
 {
   "searchKeywords": {
     "validKeyword": "ภาษาอังกฤษ",
-    "howToWrite": "วิธีการเขียน",
+    "positive": "ฟิสิกส์",
+    "combined": "สรุปสูตรฟิสิกส์",
     "notFoundSymbol": "@"
   },
   "educationLevels": {

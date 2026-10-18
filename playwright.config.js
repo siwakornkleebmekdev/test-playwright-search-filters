@@ -14,7 +14,9 @@ const BASE_URL = process.env.BASE_URL || 'https://share-ed-frontend-gamma.vercel
 export default defineConfig({
   testDir: './tests',
   /* Maximum time one test can run for. */
-  timeout: 30 * 1000,
+  // The suite targets a live deployment, so allow enough time for navigation,
+  // assertions, artifact capture, and browser-context teardown.
+  timeout: 60 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -28,7 +30,9 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI if needed. */
-  workers: process.env.CI ? 1 : undefined,
+  // Keep local runs stable on machines where Chromium and Robot Framework may
+  // be used in the same workflow. Four concurrent browsers can starve teardown.
+  workers: process.env.CI ? 1 : 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['list'],

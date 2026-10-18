@@ -10,7 +10,12 @@
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
     "test:report": "playwright show-report",
-    "test:search": "playwright test tests/e2e/search"
+    "test:search": "playwright test tests/e2e/search",
+    "test:tc": "playwright test --grep",
+    "robot:install": "python -m pip install -r requirements-robot.txt && rfbrowser init chromium",
+    "test:robot": "node scripts/run-robot.js",
+    "test:robot:tc": "node scripts/run-robot.js",
+    "test:all": "npm test && npm run test:robot"
   },
   "keywords": [
     "playwright",

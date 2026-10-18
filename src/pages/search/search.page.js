@@ -9,7 +9,9 @@ export class SearchPage extends BasePage {
     this.url = '/explore';
 
     // Core Locators matching real live https://share-ed-frontend-gamma.vercel.app/explore
-    this.searchInput = page.getByPlaceholder('ค้นหาสรุปวิชาอะไรดี?');
+    // Match the stable part of the placeholder. The production copy has changed
+    // from "ค้นหาสรุปวิชาอะไรดี?" to "ค้นหาชื่อ เนื้อหา ผู้เขียน หรือ #แท็ก".
+    this.searchInput = page.getByPlaceholder(/^ค้นหา/);
     this.postCards = page.locator('div.group.cursor-pointer, .grid > div.group, .flex.flex-col > div.group');
     this.emptyState = page.locator('text=ไม่พบโพสต์ที่ตรงกับตัวกรอง');
     this.clearFiltersButton = page.getByRole('button', { name: 'ล้างตัวกรองทั้งหมด' });
@@ -24,12 +26,12 @@ export class SearchPage extends BasePage {
   async goto() {
     await this.navigate();
     await this.searchInput.waitFor({ state: 'visible' });
-    // รอให้รายการโพสต์หรือ Loading state จาก Backend โหลดขึ้นมาบนเว็บจริง
-    await this.page.waitForResponse(
-      res => res.url().includes('/posts') && res.status() === 200,
-      { timeout: 15000 }
-    ).catch(() => {});
-    await this.page.waitForTimeout(1000);
+    // Wait for the rendered result instead of subscribing to the API response
+    // after navigation, when the response may already have completed.
+    await Promise.race([
+      this.postCards.first().waitFor({ state: 'visible', timeout: 15000 }),
+      this.emptyState.waitFor({ state: 'visible', timeout: 15000 }),
+    ]);
   }
 
   /**

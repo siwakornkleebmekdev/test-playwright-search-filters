@@ -6,17 +6,17 @@ const searchData = require('../../../test-data/search.json');
 
 /**
  * Test Suite: การทดสอบระบบค้นหาและกรองโพสต์หน้า Explore (TC-SEARCH) บนเว็บจริง
- * Target URL: https://share-ed-frontend-gamma.vercel.app/explore
+ * Target URL: https://share-ed.online/explore
  * Corresponds to: docs/testcases/search/TC-SEARCH_search_and_filter.md
  */
-test.describe('การทดสอบระบบค้นหาและกรองโพสต์หน้า Explore บนเว็บจริง (TC-SEARCH)', () => {
+test.describe('Test Scenario: ระบบค้นหาและกรองโพสต์', () => {
   test.beforeEach(async ({ searchPage, logger }) => {
     logger.info('Given Member เข้าสู่ระบบ และกดคลิ๊กไปที่หน้า "สำรวจเนื้อหา" (/explore) บนเว็บจริง');
     await searchPage.goto();
   });
 
-  test('Scenario 3.1: ค้นหาโพสต์ด้วยคำค้นหาสำเร็จ [Positive]', async ({ searchPage, logger }) => {
-    const keyword = searchData.searchKeywords.howToWrite; // 'วิธีการเขียน'
+  test('TC-SEARCH-01: ค้นหาโพสต์ด้วยคำค้นหาสำเร็จ [Positive]', async ({ searchPage, logger }) => {
+    const keyword = searchData.searchKeywords.positive; // 'ฟิสิกส์'
 
     logger.step(1, `When กรอกคำค้นหาว่า "${keyword}" ในช่องค้นหา`);
     await searchPage.search(keyword);
@@ -30,7 +30,7 @@ test.describe('การทดสอบระบบค้นหาและก�
     await expect(searchPage.searchInput).toHaveValue(keyword);
   });
 
-  test('Scenario 3.2: คัดกรองโพสต์ตามระดับการศึกษาและหมวดหมู่วิชา [Positive]', async ({ searchPage, logger }) => {
+  test('TC-SEARCH-02: คัดกรองโพสต์ตามระดับการศึกษาและหมวดหมู่วิชา [Positive]', async ({ searchPage, logger }) => {
     const eduLevel = searchData.educationLevels.juniorHigh; // 'มัธยมศึกษาตอนต้น'
 
     logger.step(1, `When เลือกตัวกรองระดับการศึกษาเป็น "${eduLevel}"`);
@@ -45,7 +45,7 @@ test.describe('การทดสอบระบบค้นหาและก�
     await expect(firstPost).toContainText(eduLevel);
   });
 
-  test('Scenario 3.3: การจัดเรียงผลลัพธ์การค้นหาตามวันที่ล่าสุด [Positive]', async ({ searchPage, logger }) => {
+  test('TC-SEARCH-03: การจัดเรียงผลลัพธ์การค้นหาตามวันที่ล่าสุด [Positive]', async ({ searchPage, logger }) => {
     logger.step(1, 'When ระบบแสดงโพสต์ขึ้นมา');
     await expect(searchPage.postCards.first()).toBeVisible();
 
@@ -55,7 +55,7 @@ test.describe('การทดสอบระบบค้นหาและก�
     logger.info(`Live posts order: ${titles.join(' -> ')}`);
   });
 
-  test('Scenario 3.4: ค้นหาหรือเลือกตัวกรองแล้วไม่พบข้อมูล (Empty State) [Negative]', async ({ searchPage, logger }) => {
+  test('TC-SEARCH-04: ค้นหาหรือเลือกตัวกรองแล้วไม่พบข้อมูล (Empty State) [Negative]', async ({ searchPage, logger }) => {
     const notFoundKeyword = searchData.searchKeywords.notFoundSymbol; // '@'
 
     logger.step(1, `When พิมพ์คำค้นหาเป็น "${notFoundKeyword}" หรือเลือกตัวกรองที่ไม่มีโพสต์ตรงกับเงื่อนไข`);
@@ -80,9 +80,9 @@ test.describe('การทดสอบระบบค้นหาและก�
     expect(count).toBeGreaterThan(0);
   });
 
-  test('Scenario 3.5: ค้นหาร่วมกับการกรองหลายเงื่อนไขพร้อมกัน (Combined Search & Multi-Filter) [Positive]', async ({ searchPage, logger }) => {
-    const keyword = searchData.searchKeywords.howToWrite; // 'วิธีการเขียน'
-    const eduLevel = searchData.educationLevels.university; // 'มหาวิทยาลัย'
+  test('TC-SEARCH-05: ค้นหาร่วมกับการกรองหลายเงื่อนไขพร้อมกัน (Combined Search & Multi-Filter) [Positive]', async ({ searchPage, logger }) => {
+    const keyword = searchData.searchKeywords.combined; // 'สรุปสูตรฟิสิกส์'
+    const eduLevel = searchData.educationLevels.seniorHigh; // 'มัธยมศึกษาตอนปลาย'
 
     logger.step(1, `When กรอกคำค้นหาว่า "${keyword}"`);
     await searchPage.search(keyword);
@@ -98,7 +98,7 @@ test.describe('การทดสอบระบบค้นหาและก�
     await expect(searchPage.postCards).toHaveCount(1);
   });
 
-  test('Scenario 3.6: การสลับมุมมองการแสดงผลโพสต์ (Grid / List View Toggle) [Positive]', async ({ searchPage, logger }) => {
+  test('TC-SEARCH-06: การสลับมุมมองการแสดงผลโพสต์ (Grid / List View Toggle) [Positive]', async ({ searchPage, logger }) => {
     const initialCount = await searchPage.getPostCount();
 
     logger.step(1, 'When Member กดปุ่มสลับมุมมองเป็น "List View" (ไอคอนรายการด้านขวาบนของช่องค้นหา)');
@@ -112,7 +112,7 @@ test.describe('การทดสอบระบบค้นหาและก�
     await expect(searchPage.postCards).toHaveCount(initialCount);
   });
 
-  test('Scenario 3.7: การยกเลิกตัวกรองบางรายการ (Uncheck Partial Filter) [Negative]', async ({ searchPage, logger }) => {
+  test('TC-SEARCH-07: การยกเลิกตัวกรองบางรายการ (Uncheck Partial Filter) [Negative]', async ({ searchPage, logger }) => {
     const juniorHigh = searchData.educationLevels.juniorHigh; // 'มัธยมศึกษาตอนต้น'
     const university = searchData.educationLevels.university; // 'มหาวิทยาลัย'
 
@@ -129,7 +129,7 @@ test.describe('การทดสอบระบบค้นหาและก�
     await expect(firstPost).toContainText(university);
   });
 
-  test('Scenario 3.8: ยกเลิกตัวกรองระดับการศึกษาทั้งหมดแล้วไม่เหลือรายการที่เลือก [Positive]', async ({ searchPage, logger }) => {
+  test('TC-SEARCH-08: ยกเลิกตัวกรองระดับการศึกษาทั้งหมดแล้วไม่เหลือรายการที่เลือก [Positive]', async ({ searchPage, logger }) => {
     const initialCount = await searchPage.getPostCount();
     const juniorHigh = searchData.educationLevels.juniorHigh; // 'มัธยมศึกษาตอนต้น'
 
@@ -143,7 +143,7 @@ test.describe('การทดสอบระบบค้นหาและก�
     await expect(searchPage.postCards).toHaveCount(initialCount);
   });
 
-  test('Scenario 3.9: ล้างตัวกรองทั้งหมดจากหน้าไม่พบข้อมูล [Negative]', async ({ searchPage, logger }) => {
+  test('TC-SEARCH-09: ล้างตัวกรองทั้งหมดจากหน้าไม่พบข้อมูล [Negative]', async ({ searchPage, logger }) => {
     const initialCount = await searchPage.getPostCount();
     const notFoundKeyword = searchData.searchKeywords.notFoundSymbol; // '@'
 
